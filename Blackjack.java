@@ -41,7 +41,7 @@ public class Blackjack {
 			if(i.equals("Q") || i.equals("K") || i.equals("J")) 
 				num += 10;
 			else if(i.equals("A")) {
-			    hasAce = true;
+				hasAce = true;
 				num++;
 			} else 
 				num += Integer.parseInt(i);
