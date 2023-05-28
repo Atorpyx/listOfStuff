@@ -1,12 +1,11 @@
-package nicholas;
 import java.util.ArrayList;
 import java.util.Scanner;
-public class BlackJack {
+public class Blackjack {
 	private int coins;
 	private String[] cards = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
 	private ArrayList<String> dealer = new ArrayList<String>();
 	private ArrayList<String> player = new ArrayList<String>();
-	public BlackJack(int coins) { 
+	public Blackjack(int coins) { 
 		this.coins = coins;
 	}
 	private void viewCards(int num) {
