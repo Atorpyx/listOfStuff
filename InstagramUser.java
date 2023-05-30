@@ -3,7 +3,6 @@ public class Student {
 	private ArrayList<Student> following;
 	private ArrayList<Student> followers;
 	private ArrayList<Student> requestedFollowers;
-	private ArrayList<Posts> posts;
 	private String name;
 	private boolean privateAccount;
 	public Student(String name, boolean privateAccount){
@@ -12,7 +11,6 @@ public class Student {
 		following = new ArrayList<Student>();
 		followers = new ArrayList<Student>();
 		requestedFollowers = new ArrayList<Student>();
-		posts = new ArrayList<Posts>();
 	}	
 	public void follow(Student name) {
 		if(name.isPrivate()) {
@@ -56,10 +54,6 @@ public class Student {
 	}
 	public boolean isPrivate() {
 		return privateAccount;
-	}
-	public void createPost(String title, String link) {
-		Posts p1 = new Posts(title, link);
-		posts.add(p1);
 	}
 	public void getListOfFollowers() {
 		if(followers.size() == 0)
