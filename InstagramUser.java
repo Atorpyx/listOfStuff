@@ -1,4 +1,3 @@
-package nicholas;
 import java.util.ArrayList;
 public class Student {
 	private ArrayList<Student> following;
