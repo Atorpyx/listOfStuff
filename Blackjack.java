@@ -31,7 +31,7 @@ public class BlackJack {
 	}
 	private int checkCards(int number) {
 		int num = 0;
-		boolean hasAce = true;
+		boolean hasAce = false;
 		ArrayList<String> holder = dealer;
 		if(number == 0)
 			holder = player;
