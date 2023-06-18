@@ -1,4 +1,4 @@
-//Blackjack program with hit, double down, and money system in only 99 lines of code mostly following what's in AP Java subset with exceptions of the Scanner class for input
+//Blackjack program with hit, double down, and money system in only 93 lines of code mostly following what's in AP Java subset with exceptions of the Scanner class for input
 //I could have cut lines of code with still maintaining function but I figured it would take away from the readability
 //AP CSA Final project- after 3 weeks of bug finding, brainstorming, and typing, here it is. You'll never win muahahahaha
 import java.util.ArrayList;
@@ -11,15 +11,13 @@ public class BlackJack {
 	public BlackJack(int coins) { 
 		this.coins = coins;
 	}
-	private void viewCards(int num) {
-		if(num == 0)
-			System.out.print("Dealer's cards: " + dealer.get(0) + ", ?");
-		if(num == 1) {
+	private void viewCards(String num) {
+		if(num == "player") {
 			System.out.print("Player's cards: ");
 			for(String str: player)
 			    System.out.print(str + ",");
 		} 
-		if(num == 2) {
+		if(num == "dealer") {
 			System.out.print("Dealer's cards: ");
 			for(String str: dealer)
 			    System.out.print(str + ",");
@@ -59,7 +57,7 @@ public class BlackJack {
 		} else
 			System.out.println("You drew :/");
 	}
-	private String prompt() {
+	public String prompt() {
 		return new Scanner(System.in).nextLine();
 	}
 	public void game(int bet) {
@@ -71,32 +69,28 @@ public class BlackJack {
 		drawCard(dealer);
 		drawCard(player);
 		drawCard(player);
-		viewCards(1);
-		viewCards(0);
+		viewCards("player");
+		System.out.println("Dealer's cards: " + dealer.get(0) + ", ?");
 		while(stop) {
 			System.out.println("You wanna hit, stand, or double down?(h/s/d)");
 			option = prompt();
 			if(option.equals("h") || option.equals("d")) {
 				drawCard(player);
-				viewCards(1);
+				viewCards("player");
 			}
 			if(!option.equals("h") || checkCards(player) >= 21)
 				stop = false;
 		}
 		while(checkCards(dealer) < 17)
 			drawCard(dealer);
-		if(checkCards(player) > 21)
-			viewCards(0);
-		else
-			viewCards(2);
+		if(checkCards(player) <= 21)
+			viewCards("dealer");
 		if(option.equals("d")) 
 			determiner(bet*2);
 		else
 			determiner(bet);
 		System.out.println("You want to try again? (y/n)");
-		if(prompt().equals("y"))
+		if(!prompt().equals("n"))
 			game(bet);
-		else
-			System.out.println("Come back next time!!");
 	}
 }
