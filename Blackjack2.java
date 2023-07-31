@@ -57,10 +57,10 @@ public class BlackJack {
 		System.out.println();
 		return 0;
 	}
-	public String prompt() {
+	private String prompt() {
 		return new Scanner(System.in).nextLine();
 	}
-	public boolean hand(String card, int bet) {
+	private boolean hand(String card, int bet) {
 		boolean stop = true;
 		String option = "";
 		player.clear();
