@@ -11,12 +11,12 @@ public class BlackJack {
 		this.coins = coins;
 	}
 	private void viewCards(String num) {
-		if(num == "player") {
+		if(num.equals("player")) {
 			System.out.print("Player's cards: ");
 			for(String str: player)
 			    System.out.print(str + ",");
 		} 
-		if(num == "dealer") {
+		if(num.equals("dealer")) {
 			System.out.print("Dealer's cards: ");
 			for(String str: dealer)
 			    System.out.print(str + ",");
@@ -57,7 +57,7 @@ public class BlackJack {
 		System.out.println();
 		return 0;
 	}
-	private String prompt() {
+	public String prompt() {
 		return new Scanner(System.in).nextLine();
 	}
 	private boolean hand(String card, int bet) {
