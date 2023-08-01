@@ -79,7 +79,7 @@ public class BlackJack {
 		noBust = true;
 		return 0;
 	}
-	public String prompt() {
+	private String prompt() {
 		return new Scanner(System.in).nextLine();
 	}
 	private boolean hand(String card, int bet) {
@@ -115,7 +115,7 @@ public class BlackJack {
 		System.out.println();
 		return false;
 	}
-	public void blackjack(int bet) {
+	public void game(int bet) {
 		if(warning) 
 			System.out.println("Warning: Choosing an invalid option will just lead to the 'stand' option.");
 		warning = false;
