@@ -97,7 +97,7 @@ public class BlackJack {
 		System.out.println("Dealer's cards: " + dealer.get(0) + ", ?");
 		while(stop) {
 			System.out.println("You wanna hit, stand, split, or double down?(h/s/sp/d)");
-			option = "s";
+			option = prompt();
 			if(option.equals("sp") && player.size() == 2 && player.get(0).equals(player.get(1)))
 				return true;
 			if(option.equals("h") || option.equals("d")) {
