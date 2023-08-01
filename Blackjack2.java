@@ -2,7 +2,7 @@
 //what turned out just to be a project for school was something I worked on more outside of school and completed.
 //List of changes made: made it so dealer doesn't show cards if you busted all your hands, made it so having blackjack pays 3:2, and implemented split.
 //I still haven't fixed the money system, so you are able to bet negative coins, but whatever it's fine it's not like those gambling bots on discord and there's no way to get more coins you just add it to yourself
-//Anyways, I just did split and so many other stuff in under 150 lines of code! Still impressive. Here's my project!
+//Anyways, I just did split and so many other stuff in under 150 lines of code! Still impressive. Here's my project! 
 import java.util.ArrayList;
 import java.util.Scanner;
 public class BlackJack {
