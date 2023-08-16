@@ -1,12 +1,12 @@
 //added the simulation method, which follows this blackjack chart
 //https://blackjack-strategy.co/blackjack-strategy-chart/blackjack-strategy-card-8-decks-pays-3-to-2-stand-17/
-package nicholas;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class BlackJack {
 	private double coins;
-	private String[] cards = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+	private String[] card = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+	private ArrayList<String> cards = new ArrayList<String>();
 	private double[] gameList = {0, 0, 0, 0, 0, 0, 0};
 	private double[] doubledList = {0, 0, 0, 0, 0};
 	private ArrayList<String> dealer = new ArrayList<String>();
@@ -46,6 +46,12 @@ public class BlackJack {
         }
         return holder.indexOf("A") != -1 && num + 10 <= 21;
 	}
+	public void cards() {
+		//for(String i: cards) {
+			//System.out.println(i + ", ");
+		//}
+	}
+	///*
 	private String cardLogic(int hardHit, int hardDouble, int hardHit2, int softHit, int softDouble, int spSplit, int spHit,  int spDouble, int spHit2, int spSplit2, int spStand, int spSplit3) {
 		int cardValue = checkCardValue(player);
 		boolean soft = isSoft(player);
@@ -106,9 +112,62 @@ public class BlackJack {
 			return cardLogic(16, 0, 0, 18, 0, 0, 7, 0, 0, 8, 10, 11);
 		return "I just put this here because the ide gets mad at me";
 	}
-	
+	//*/
+	/*
+	public String cardLogic(int hardHit, int softHit) {
+	      if (checkCardValue(player) <= hardHit && isSoft(player) == false) {
+	        return "h";
+	      } else if (checkCardValue(player) > hardHit && isSoft(player) == false) {
+	        return "s";
+	      } else if (checkCardValue(player) <= softHit && isSoft(player) == true) {
+	        return "h";
+	      } else if (checkCardValue(player) > softHit && isSoft(player) == true) {
+	        return "s";
+	      }
+	      System.out.println("Something went horribly wrong");
+	      return "Shit";
+	    
+	}
+	public String getOutcome() {
+		String dealerCard = dealer.get(0);
+		if(dealerCard.equals("2"))
+			return cardLogic(12, 17);
+		if(dealerCard.equals("3"))
+			return cardLogic(12, 17);
+		if(dealerCard.equals("4"))
+			return cardLogic(11, 17);
+		if(dealerCard.equals("5"))
+			return cardLogic(11, 17);
+		if(dealerCard.equals("6"))
+			return cardLogic(11, 17);
+		if(dealerCard.equals("7"))
+			return cardLogic(16, 17);
+		if(dealerCard.equals("8"))
+			return cardLogic(16, 17);
+		if(dealerCard.equals("9"))
+			return cardLogic(16, 18);
+		if(dealerCard.equals("10") || dealerCard.equals("J") || dealerCard.equals("K") || dealerCard.equals("Q"))
+			return cardLogic(16, 18);
+		if(dealerCard.equals("A"))
+			return cardLogic(16, 18);
+		
+		return "shit";
+			
+	}
+	*/
 	//above are methods in order to figure out the best choice for the hand you have. Below are the blackjack game coding.
-	
+	public void shuffle() {
+		
+	    cards.clear();
+	    for(int j = 0; j < 32; j++)
+	        for(int i = 0; i < card.length; i++)
+	            cards.add(card[i]);
+	    
+	}
+	public void drawCard(ArrayList<String> holder) {
+		//holder.add(cards.remove((int) (cards.size()*Math.random())));
+		holder.add(card[(int) (13*Math.random())]);
+	}
 	private void viewCards(String name) {
 		if(name.equals("player")) {
 			System.out.print("Player's cards: ");
@@ -121,9 +180,6 @@ public class BlackJack {
 			    System.out.print(str + ",");
 		}
 		System.out.println();
-	}
-	private void drawCard(ArrayList<String> holder) {
-		holder.add(cards[(int) (13*Math.random())]);
 	}
 	private boolean isBlackjack(ArrayList<String> name) {
 		return name.size() == 2 && name.indexOf("A") != -1 && (name.indexOf("10") != -1 || name.indexOf("J") != -1 || name.indexOf("Q") != -1 || name.indexOf("K") != -1);
@@ -243,15 +299,15 @@ public class BlackJack {
 		else
 			drawCard(player);
 		drawCard(player);
-		
+		//
 		//System.out.println("Hand " + numHands);
 		//viewCards("player");
 		//System.out.println("Dealer's cards: " + dealer.get(0) + ", ?");
 		while(stop) {
 			//System.out.println("You wanna hit, stand, split, or double down?(h/s/sp/d)");
-			//if(manualPlaying)
-				//option = prompt();
-			//else
+			if(manualPlaying)
+				option = prompt();
+			else
 				option = getOutcome();
 			if(option.equals("sp") && player.size() == 2 && player.get(0).equals(player.get(1)))
 				return true;
@@ -262,26 +318,32 @@ public class BlackJack {
 			if(!option.equals("h") || checkCardValue(player) >= 21)
 				stop = false;
 		}
+		if(checkCardValue(player) < 21) {
+			while(checkCardValue(dealer) < 17)
+				drawCard(dealer);
+		}
 		if(option.equals("d")) 
 			resultList.add(handOutcome(bet, true));
 		else
 			resultList.add(handOutcome(bet, false));
-		numHands++;
+		//numHands++;
 		//System.out.println();
 		return false;
 	}
 	public void game(int bet) {
-		//if(warning) 
-			//System.out.println("Warning: Choosing an invalid option will just lead to the 'stand' option.");
-		//warning = false;
+		if(warning) 
+			System.out.println("Warning: Choosing an invalid option will just lead to the 'stand' option.");
+		warning = false;
 		noBust = false;
 		int handsLeft = 1;
-		numHands = 1;
+		//numHands = 1;
 		dealer.clear();
+		//shuffle();
 		resultList.clear();
+		drawCard(dealer);
+		drawCard(dealer);
 		
-		while(checkCardValue(dealer) < 17)
-			drawCard(dealer);
+		
 		String card = "r";
 		while(handsLeft != 0) {
 			if(hand(card, bet)) {
@@ -310,25 +372,22 @@ public class BlackJack {
 			leastAmountCoins = coins;
 		numGames++;
 		//System.out.println("You now have " + coins + " coins");
-		//if(numGames % 100 == 0)
-			//System.out.println((int)coins);
-		//System.out.println(numGames);
 		//System.out.println("You have played this many games: " + numGames);
-		//System.out.println(numGames);
 		//System.out.println("You want to try again? (y/n)");
-		//if(manualPlaying)
-			//if(!prompt().equals("n"))
-				//game(bet);
+		//cards();
+		if(manualPlaying)
+			if(!prompt().equals("n"))
+				game(bet);
 	}
 	public void simulation(double times, int bet) {
 		manualPlaying = false;
 		LocalTime startTime = LocalTime.now();
-	   // System.out.println(startTime);
+		System.out.println(startTime);
 		for(double i = 0; i < times; i++){
 			game(bet);
 		}
 		LocalTime endTime = LocalTime.now();
-	    //System.out.println(endTime);
+	    System.out.println(endTime);
 	    int hours = Integer.parseInt(endTime.toString().substring(0, 2)) - Integer.parseInt(startTime.toString().substring(0, 2));
 		int minutes = Integer.parseInt(endTime.toString().substring(3, 5)) - Integer.parseInt(startTime.toString().substring(3, 5));
 		int seconds = Integer.parseInt(endTime.toString().substring(6, 8)) - Integer.parseInt(startTime.toString().substring(6, 8));
@@ -338,5 +397,4 @@ public class BlackJack {
 		manualPlaying = true;
 		gameData();
 	}
-}
 }
