@@ -6,9 +6,9 @@ public class BlackJack {
 	private ArrayList<String> dealer = new ArrayList<String>();
 	private ArrayList<String> player = new ArrayList<String>();
 	private ArrayList<Double> resultList = new ArrayList<Double>();
+	private int hasBusted;
 	private int numHands;
-	private boolean warning = true;
-	private boolean busted = false;
+	private boolean hasBusted = false;
 	public BlackJack(double coins) { 
 		this.coins = coins;
 	}
@@ -54,7 +54,7 @@ public class BlackJack {
 			return -bet;
 		} else if(checkCardValue(player) > 21) {
 			coins -= bet;
-			busted = true;
+			hasBusted = true;
 			return -bet;
 		} else if(checkCardValue(dealer) > 21) {
 			coins += bet;
@@ -73,18 +73,18 @@ public class BlackJack {
 		return new Scanner(System.in).nextLine();
 	}
 	private boolean hand(String card, int bet) {
-		String option = "";
-		player.clear();
+		String option = "";//variable for prompt
+		player.clear();//crucial in the case of a split, you have to clear the player's cards, and the outcome of the previous hand is stored in resultList
 		
-		if(!card.equals("r"))
-			player.add(card);
-		else
+		if(card.equals("random-notsplit"))
 			drawCard(player);
-		drawCard(player);
+		else
+			player.add(card);
+		drawCard(player);//this is where the cards for the player's hand is assigned randomly or by a previous split. 
 		
 		System.out.println("Hand " + numHands);
 		viewCards("player");
-		System.out.println("Dealer's cards: " + dealer.get(0) + ", ?");
+		System.out.println("Dealer's cards: " + dealer.get(0) + ", ?");//simply just text
 		
 		boolean stop = true;
 		while(stop) {
@@ -98,35 +98,37 @@ public class BlackJack {
 			}
 			if(!option.equals("h") || checkCardValue(player) >= 21)
 				stop = false;
-		}
+		}//What happenes when the player chooses each choice, with split, the hand method simply returns true, and 1 more hand is added, and also terminating the loop when the player busts
+		
 		if(option.equals("d")) 
 			resultList.add(handOutcome(bet*2));
 		else
-			resultList.add(handOutcome(bet));
-		numHands++;
+			resultList.add(handOutcome(bet));//special case for double down
+		
+		numHands++;//this will only matter with the split, if there is no split then the variable goes to two hands, but is never mentioned so oh well. 
 		System.out.println();
-		return false;
+		return false;//signals to decrease handsLeft by 1. 
 	}
 	public void game(int bet) {
-		busted = false;
-		int handsLeft = 1;
-		numHands = 1;
-		dealer.clear();
-		resultList.clear();
+		hasBusted = false;//notes weather the player has busted or not. The default case is that they have not busted, until they do.
+		int handsLeft = 1;//the amount of hands left
+		numHands = 1;//simply just for system.out.print stuff no actual calculations use this variable. 
+		dealer.clear();//resets everything for when the play wants to start a new game. 
+		resultList.clear();//same
 		
 		while(checkCardValue(dealer) < 17)
-			drawCard(dealer);
-		String card = "r";
+			drawCard(dealer);//the dealers final hand is already determined at the beginning, just not shown to the player; only the first card
+		String card = "random-notsplit";//the default case. It signals to the game method to draw a random card into the player's hand, and not the card that the player would have split
 		while(handsLeft != 0) {
 			if(hand(card, bet)) {
-				card = player.get(0);
-				handsLeft++;
+				card = player.get(0);//getting to this point would mean the player had successfully split, so you make it so the card variable signals to the game method that it needs to have a predetermined card. 
+				handsLeft++;//this makes the amount of hands increase by 1, so now the player would have 2 hands instead of one hand due to splitting.
 			}
 			else
-				handsLeft--;
+				handsLeft--;//once the hand did not split, this decreases the amount of hands the player has left by 1. 
 		}
-		if(!busted)
-			viewCards("dealer");
+		if(!hasBusted)
+			viewCards("dealer");//views the dealers cards if and only if the player has not busted. If the player has busted then the dealers cards will not be revealed. 
 		int hands = 1;
 		for(double result: resultList) {
 			if(result < 0)
